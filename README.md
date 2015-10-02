@@ -62,19 +62,18 @@ module.exports = function (robot) {
             }
         });
     });
-
-    robot.respond(/.*the mission/, function (msg) {
+    
+    
+  robot.respond(/.*the mission/, function (msg) {
         msg.reply('Your have 5 seconds to accept your mission, or this message will self-destruct');
         var dialog = switchBoard.startDialog(msg, 5000); //5 Second timeout
         dialog.timeout = function (msg2) {
             msg2.emote('Boom');
         }
-
         dialog.addChoice(/yes/i, function (msg2) {
             msg2.reply('Great! Here are the details...');
         });
     });
-
 };
 ```
 
@@ -105,8 +104,66 @@ hubot> ready to jump 3 3
 ```
 
 ```bash
-dog> dog what's the mission?
-dog> Shell: Your have 5 seconds to accept your mission, or this message will self-destruct
+hubot> hubot what's the mission?
+hubot> Shell: Your have 5 seconds to accept your mission, or this message will self-destruct
 //5 seconds later
 * Boom  
 ```
+
+
+##API
+
+###Conversation
+
+##### startDialog(msg, [timeout])
+
+Returns a new Dialog object, with a default timeout of 30000ms.
+
+**msg**: An incoming message heard / responded to by the robot
+ eg: 
+  
+ ```javascript
+ robot.respond(/foo/,function(msg){ 
+    var dialog = conversation.startDialog(msg);
+ })
+ ```
+ 
+ **timeout**: optional time in ms before the conversaion expires.
+ The Dialog object has a default `timeout` function property which can be overriden to specify the timeout behavior
+ 
+##### talkingTo(id)
+ 
+ Returns the Dialog being held with a given user
+ 
+ **id**: The Id of the user with whom a dialog is taking place.
+ 
+ 
+### Dialog
+ A multiple-choice message handler
+ 
+##### receive(msg)
+ 
+ Process an incoming message to see if any choice matches it.
+ 
+ **msg** A hubot message
+ 
+##### addChoice(regex, handler)
+ 
+ Adds a listener choice to this Dialog. This works just like hubots `hear` listener. 
+ If a message is received that matches the choice `regex`, the handler will be executed.
+  
+ **regex** a regular expresion that will be aplied to the incoming message from the receive function
+ **handler**: function(message),  A function that is executed against a successfully matched message. The `match` property of the original 
+ message is replaced by the match against this regex, so you can retrieve matched groups.
+
+##### getChoices()
+ 
+ Returns the array of choices
+ 
+##### reset()
+
+ Clears the choices and the timeout
+ 
+##### timeout -> function(message){ }
+Default timeout handler.  You can override this property with your own function.
+
