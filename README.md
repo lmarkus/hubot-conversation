@@ -63,11 +63,24 @@ module.exports = function (robot) {
         });
     });
 
+    robot.respond(/.*the mission/, function (msg) {
+        msg.reply('Your have 5 seconds to accept your mission, or this message will self-destruct');
+        var dialog = switchBoard.startDialog(msg, 5000); //5 Second timeout
+        dialog.timeout = function (msg2) {
+            msg2.emote('Boom');
+        }
+
+        dialog.addChoice(/yes/i, function (msg2) {
+            msg2.reply('Great! Here are the details...');
+        });
+    });
+
 };
+```
 
 This will give you the following interactions:
 
-```
+```bash
 hubot> hubot clean the house
 hubot> Shell: Sure, where should I start? Kitchen or Bathroom
 hubot> Kitchen
@@ -81,7 +94,7 @@ hubot> Shell: Fine, Mom!
 
 ```
 
-```
+```bash
 hubot> hubot jump
 hubot> Shell: Sure, How many times?
 hubot> 3
@@ -89,4 +102,11 @@ hubot> ready to jump 3 3
 * Jumps
 * Jumps
 * Jumps
+```
+
+```bash
+dog> dog what's the mission?
+dog> Shell: Your have 5 seconds to accept your mission, or this message will self-destruct
+//5 seconds later
+* Boom  
 ```
