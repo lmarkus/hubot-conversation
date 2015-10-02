@@ -10,14 +10,25 @@ Have a multi-message chat with your bot.
    var switchBoard = new Conversation(robot);
    ```
     
-This will register a `hear` listener allowing the instance to listen in on all incoming messages
+This will register a custom listener allowing the instance to check all incoming messages. If the message comes
+from a user that we're having a conversation with, it will be processed as the next step in an ongoing Dialog.
 
 2) Given an starting message, create a new Dialog instance and give the dialog choices.
   
   ```javascript
-  var dialog = switchBoard.createDialog(msg);
+  robot.hear(/delete all the files/, function(msg) {
   
-  dialog.addChoice(/foo/, function(msg2){/*Do stuff*/}
+      msg.reply('Are you really sure???');
+      
+      //Start a dialog with the user that sent this message.
+      var dialog = switchBoard.createDialog(msg);
+      
+      //Provide choices for the next step, wait for the user.
+      dialog.addChoice(/yes/, function(msg2){/*Do some stuff for the yes option*/}
+      dialog.addChoice( /no/, function(msg2){/*Do some stuff for the no option*/ }
+  
+      //The dialog will expire after 30 secods.  
+  });
   ```
 
 The switchBoard will listen to the next message **FROM THE SAME USER** and try to match it to any of the available choices.
