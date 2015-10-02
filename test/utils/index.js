@@ -9,8 +9,12 @@ module.exports.Messenger = function Messenger(bot, messages) {
         /**
          * Sends the next message in the array
          */
-        next: function next() {
-            bot.receive(messages.shift());
+        next: function next(callback) {
+            bot.receive(messages.shift(), function () {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
         },
 
         /**

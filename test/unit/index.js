@@ -85,6 +85,26 @@ describe('#Hubot Conversation', function () {
         messenger.next();
     });
 
+    it('Clears the dialog if no choices are matched', function (done) {
+        var dialog;
+
+        bot.respond(/clean the house/i, function (msg) {
+            dialog = switchBoard.startDialog(msg);
+            dialog.addChoice(/can't touch this/, function () {
+                throw new Exception(); //Should never get here.
+            });
+        });
+
+        //Pyramid of Doom!
+        messenger.next(function () { //Starts the dialog
+            assert.strictEqual(dialog.getChoices().length, 1, 'A single choice is registered');
+            messenger.next(function () { //Sends kitchen, which won't be matched
+                assert.strictEqual(dialog.getChoices().length, 0, 'Dialog should be cleared of choices');
+                done();
+            });
+        });
+    });
+
 
     it('Ends dialog after a set timeout with the default handler', function (done) {
         this.timeout(200); //<--- This is just a mocha timeout so the unit test ends faster. It's not the actual Dialog timeout
@@ -137,8 +157,8 @@ describe('#Hubot Conversation', function () {
         });
         messenger.next();
     });
+
     it.skip('Overrides the matched results from the universal listener');
     it.skip('Does not try to match anything else after a choice is matched');
-    it.skip('Clears the choices if no input is found');
 
 });
