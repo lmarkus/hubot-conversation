@@ -6,9 +6,9 @@ Have a multi-message chat with your bot.
 
 1) Make a new `Conversation` instance aware of your robot:
     
-    ```javascript
-    var switchBoard = new Conversation(robot);
-    ```
+   ```javascript
+   var switchBoard = new Conversation(robot);
+   ```
     
 This will register a `hear` listener allowing the instance to listen in on all incoming messages
 
