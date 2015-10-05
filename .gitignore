@@ -1,5 +1,3 @@
-# TODO: Find what's generating this 'oom_1' file and remove it
-oom_1
 #########
 
 lib-cov
@@ -22,42 +20,8 @@ npm-debug.log
 .idea
 .DS_Store
 
-oom_1
-
-test/util/casper/cookies/cookies.json
 test/coverage
 
-#// Generated files
-#// --------------------
-
-# progressbar
-public/js/progressbar/dist
-public/js/progressbar/src/js/templates/
-
-# businessSetup
-public/js/businessSetup/dist/
-public/js/businessSetup/test/compiled/
-public/js/businessSetup/src/js/templates/templates.js
-
-
-#// Dependencies
-#// -----------------------
-
-# progressbar
-public/js/progressbar/node_modules
-public/js/progressbar/lib/bower_components
-
-## TODO: These should be moved into bower_components
-public/js/progressbar/lib/backbone/
-public/js/progressbar/lib/jQuery/
-
-
-# businessSetup
-public/js/businessSetup/node_modules
-
-
-#casper test screesnhots
-sc**.png
 
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion

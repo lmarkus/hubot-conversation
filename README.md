@@ -171,10 +171,10 @@ Returns a new Dialog object, with a default timeout of 30000ms.
  
  Returns the array of choices
  
-##### reset()
+##### resetChoices()
 
- Clears the choices and the timeout
+ Clears the choices.
  
-##### timeout -> function(message){ }
+##### dialogTimeout -> function(message){ }
 Default timeout handler.  You can override this property with your own function.
 

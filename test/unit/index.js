@@ -68,21 +68,24 @@ describe('#Hubot Conversation', function () {
     });
 
     it('Clears the dialog choices after finding a match', function (done) {
+        var dialog;
         bot.respond(/clean the house/i, function (msg) {
-            var dialog = switchBoard.startDialog(msg);
+            dialog = switchBoard.startDialog(msg);
 
             dialog.addChoice(/kitchen/, function () {
-                assert.strictEqual(dialog.getChoices().length, 0, 'Choices should be cleared after a match.');
-                done();
             });
 
             dialog.addChoice(/bathroom/, function () {
             });
-            assert.strictEqual(dialog.getChoices().length, 2, 'There are two choices at this point');
-            messenger.next();
         });
 
-        messenger.next();
+        messenger.next(function () {
+            assert.strictEqual(dialog.getChoices().length, 2, 'There are two choices at this point');
+            messenger.next(function () {
+                assert.strictEqual(dialog.getChoices().length, 0, 'Choices should be cleared after a match.');
+                done();
+            });
+        });
     });
 
     it('Clears the dialog if no choices are matched', function (done) {
@@ -107,7 +110,6 @@ describe('#Hubot Conversation', function () {
 
 
     it('Ends dialog after a set timeout with the default handler', function (done) {
-        this.timeout(200); //<--- This is just a mocha timeout so the unit test ends faster. It's not the actual Dialog timeout
         bot.respond(/the mission/i, function (msg) {
             msg.reply('Your mission is to pass this unit test');
             msg.send('This dialog will self destruct in 200ms');
@@ -126,7 +128,9 @@ describe('#Hubot Conversation', function () {
             msg.reply('Your mission is to pass this unit test');
             msg.send('This dialog will self destruct in 100ms');
             var dialog = switchBoard.startDialog(msg, 100);
-            dialog.timeout = function (originalMessage) {
+            dialog.addChoice(/accept/, function () { /*noop*/
+            });
+            dialog.dialogTimeout = function (originalMessage) {
                 originalMessage.send('Boom');
                 done();
             };
