@@ -91,7 +91,7 @@ describe('#Hubot Conversation', function () {
         bot.respond(/clean the house/i, function (msg) {
             dialog = switchBoard.startDialog(msg);
             dialog.addChoice(/can't touch this/, function () {
-                throw new Exception(); //Should never get here.
+                throw new Error(); //Should never get here.
             });
         });
 
