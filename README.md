@@ -21,7 +21,7 @@ from a user that we're having a conversation with, it will be processed as the n
       msg.reply('Are you really sure???');
       
       //Start a dialog with the user that sent this message.
-      var dialog = switchBoard.createDialog(msg);
+      var dialog = switchBoard.startDialog(msg);
       
       //Provide choices for the next step, wait for the user.
       dialog.addChoice(/yes/, function(msg2){/*Do some stuff for the yes option*/}
