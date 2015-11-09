@@ -25,9 +25,14 @@ describe('#Hubot Conversation', function () {
         switchBoard = new Conversation(bot);
         messages = [
             new Message(testUser, 'hubot clean the house', '123'),
-            new Message(testUser, 'the kitchen', '456')
+            new Message(testUser, 'the kitchen', '456'),
+            new Message(testUser, 'yes', '789')
         ];
         messenger = new utils.Messenger(bot, messages);
+    });
+
+    afterEach(function () {
+        bot.shutdown(); //Cleanup to remove event listeners.
     });
 
     it('Registers universal listener', function () {
@@ -86,6 +91,27 @@ describe('#Hubot Conversation', function () {
                 done();
             });
         });
+    });
+
+    it('Clears the dialog choices after immediately after finding a match in a multi-level dialog', function (done) {
+        var dialog;
+        bot.respond(/clean the house/i, function (msg) {
+            dialog = switchBoard.startDialog(msg);
+
+            //Messages will be sent in nested fashion for this test.
+            //messenger.next() activates the previously entered choice, so it look a bit backwards reading top to bottom.
+            dialog.addChoice(/kitchen/, function () {
+                assert.strictEqual(dialog.getChoices().length, 0, 'Choices should be cleared as soon as a match is found.');
+                dialog.addChoice(/yes/i, function () {
+                    assert.strictEqual(dialog.getChoices().length, 0, 'Choices should be cleared as soon as a match is found.');
+                    done();
+                });
+                assert.strictEqual(dialog.getChoices().length, 1, 'After adding a new choice, there should only be one.');
+                messenger.next(); //Yes
+            });
+            messenger.next(); //The kitchen
+        });
+        messenger.next(); //Clean The house
     });
 
     it('Clears the dialog if no choices are matched', function (done) {
