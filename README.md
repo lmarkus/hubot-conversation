@@ -2,6 +2,7 @@
 
 Have a multi-message chat with your bot.
 
+#####Reminder, before you start: This does *not* need to be added to [external-scripts.](https://github.com/lmarkus/hubot-conversation/issues/4)
 ##How it works:
 
 1) Make a new `Conversation` instance aware of your robot:
