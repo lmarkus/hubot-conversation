@@ -79,7 +79,7 @@ module.exports = function (robot) {
   robot.respond(/.*the mission/, function (msg) {
         msg.reply('Your have 5 seconds to accept your mission, or this message will self-destruct');
         var dialog = switchBoard.startDialog(msg, 5000); //5 Second timeout
-        dialog.dialogTimeout = function (msg2) {
+        dialog.timeout = function (msg2) {
             msg2.emote('Boom');
         }
         dialog.addChoice(/yes/i, function (msg2) {
