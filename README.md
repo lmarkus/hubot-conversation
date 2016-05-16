@@ -8,11 +8,11 @@ Have a multi-message chat with your bot.
 1) Make a new `Conversation` instance aware of your robot:
     
    ```javascript
-   var switchBoard = new Conversation(robot);
+   var switchBoard = new Conversation(robot, [type]);
    ```
     
-This will register a custom listener allowing the instance to check all incoming messages. If the message comes
-from a user that we're having a conversation with, it will be processed as the next step in an ongoing Dialog.
+This will register a custom listener allowing the instance to check all incoming messages. Type parameter can take one of two values: `user` (default) or `room`. It defines if this conversation is with the whole room or with a particular user only.
+If the message comes from a user (or a room) that we're having a conversation with, it will be processed as the next step in an ongoing Dialog.
 
 2) Given an starting message, create a new Dialog instance and give the dialog choices.
   
@@ -32,7 +32,7 @@ from a user that we're having a conversation with, it will be processed as the n
   });
   ```
 
-The switchBoard will listen to the next message **FROM THE SAME USER** and try to match it to any of the available choices.
+The switchBoard will listen to the next message from the same user (or room) and try to match it to any of the available choices.
 After a match has been found. It will clear the choices, and end the dialog.
 
 The bot will forget about your dialog after a default timeout of 30 seconds.
