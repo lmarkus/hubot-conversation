@@ -1,6 +1,6 @@
 {
   "name": "hubot-conversation",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A utility for having conversation sessions with Hubot",
   "main": "index.js",
   "scripts": {
