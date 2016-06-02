@@ -127,7 +127,7 @@ hubot> Shell: Your have 5 seconds to accept your mission, or this message will s
 
 ###Conversation
 
-##### startDialog(msg, [timeout])
+##### startDialog(msg, [timeout], [timeoutMessage])
 
 Returns a new Dialog object, with a default timeout of 30000ms.
 
@@ -143,6 +143,9 @@ Returns a new Dialog object, with a default timeout of 30000ms.
  **timeout**: optional time in ms before the conversaion expires.
  The Dialog object has a default `timeout` function property which can be overriden to specify the timeout behavior
  
+ **timeoutMessage**: optional message to send when when the conversation expires.
+ The Dialog object has a default `timeout` function property which can be overriden to specify the timeout behavior
+
 ##### talkingTo(id)
  
  Returns the Dialog being held with a given user
