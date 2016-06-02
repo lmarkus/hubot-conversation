@@ -148,6 +148,20 @@ describe('#Hubot Conversation', function () {
         bot.receive(new Message(testUser, 'hubot the mission', 123));
     });
 
+    it('Ends dialog after a set timeout and timeout message with the default handler', function (done) {
+        bot.respond(/the mission/i, function (msg) {
+            var timeoutMessage = 'You took a little too long.';
+            msg.reply('Your mission is to pass this unit test');
+            msg.send('This dialog will self destruct in 200ms');
+            var dialog = switchBoard.startDialog(msg, 100, timeoutMessage);
+            msg.reply = function (text) {
+                assert.strictEqual(text, timeoutMessage, 'Custom reply sent');
+                done();
+            };
+        });
+        bot.receive(new Message(testUser, 'hubot the mission', 123));
+    });
+
     it('Ends dialog after a set timeout with a custom handler', function (done) {
         this.timeout(200); //<--- This is just a mocha timeout so the unit test ends faster. It's not the actual Dialog timeout
         bot.respond(/the mission/i, function (msg) {
