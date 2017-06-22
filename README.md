@@ -77,7 +77,7 @@ module.exports = function (robot) {
     
     
   robot.respond(/.*the mission/, function (msg) {
-        msg.reply('Your have 5 seconds to accept your mission, or this message will self-destruct');
+        msg.reply('You have 5 seconds to accept your mission, or this message will self-destruct');
         var dialog = switchBoard.startDialog(msg, 5000); //5 Second timeout
         dialog.timeout = function (msg2) {
             msg2.emote('Boom');
@@ -117,7 +117,7 @@ hubot> ready to jump 3 3
 
 ```bash
 hubot> hubot what's the mission?
-hubot> Shell: Your have 5 seconds to accept your mission, or this message will self-destruct
+hubot> Shell: You have 5 seconds to accept your mission, or this message will self-destruct
 //5 seconds later
 * Boom  
 ```
